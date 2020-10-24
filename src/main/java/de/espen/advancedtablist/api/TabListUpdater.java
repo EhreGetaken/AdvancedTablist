@@ -33,14 +33,15 @@ public class TabListUpdater {
                 AtomicReference<String> headerString = new AtomicReference<>("null");
                 AtomicReference<String> footerString = new AtomicReference<>("null");
                 header.forEach(s -> {
-                    s = s.replaceAll("%ping%", String.valueOf(ping))
-                            .replaceAll("%tps%", String.valueOf(finalCurrentTps)
-                            .replaceAll("%version%",
-                                    String.valueOf(AdvancedTablist.getInstance().getSettings().VERSION))
-                            .replaceAll("%spacer%", "\n")
-                            .replaceAll("%currentPlayers%", String.valueOf(Bukkit.getOnlinePlayers().size()))
-                            .replaceAll("%maxPlayers%", String.valueOf(Bukkit.getMaxPlayers()))
-                            .replaceAll("%serverName%", Bukkit.getServerName()));
+                    s = s.replaceAll("%ping%", String.valueOf(ping));
+                    s = s.replaceAll("%tps%", String.valueOf(Math.round(finalCurrentTps)));
+                    s = s.replaceAll("%version%",
+                            AdvancedTablist.getInstance().getSettings().VERSION);
+                    s = s.replaceAll("%spacer%", "\n");
+                    s = s.replaceAll("%currentPlayers%","" + String.valueOf(Bukkit.getOnlinePlayers().size()));
+                    s = s.replaceAll("%maxPlayers%","" + String.valueOf(Bukkit.getMaxPlayers()));
+                    s = s.replaceAll("%serverName%", Bukkit.getServerName());
+                    s = s.replaceAll("&", "§");
                     if (headerString.get().equalsIgnoreCase("null")) {
                         headerString.set("");
                         headerString.set(s);
@@ -49,19 +50,20 @@ public class TabListUpdater {
                     }
                 });
                 footer.forEach(s -> {
-                    s = s.replaceAll("%ping%", String.valueOf(ping))
-                            .replaceAll("%tps%", String.valueOf(finalCurrentTps)
-                                    .replaceAll("%version%",
-                                            String.valueOf(AdvancedTablist.getInstance().getSettings().VERSION))
-                                    .replaceAll("%spacer%", "\n")
-                                    .replaceAll("%currentPlayers%", String.valueOf(Bukkit.getOnlinePlayers().size()))
-                                    .replaceAll("%maxPlayers%", String.valueOf(Bukkit.getMaxPlayers()))
-                                    .replaceAll("%serverName%", Bukkit.getServerName()));
+                    s = s.replaceAll("%ping%", String.valueOf(ping));
+                    s = s.replaceAll("%tps%", String.valueOf(Math.round(finalCurrentTps)));
+                    s = s.replaceAll("%version%",
+                            AdvancedTablist.getInstance().getSettings().VERSION);
+                    s = s.replaceAll("%spacer%", "\n");
+                    s = s.replaceAll("%currentPlayers%","" + String.valueOf(Bukkit.getOnlinePlayers().size()));
+                    s = s.replaceAll("%maxPlayers%","" + String.valueOf(Bukkit.getMaxPlayers()));
+                    s = s.replaceAll("%serverName%", Bukkit.getServerName());
+                    s = s.replaceAll("&", "§");
                     if (footerString.get().equalsIgnoreCase("null")) {
                         footerString.set("");
                         footerString.set(s);
                     } else {
-                        footerString.set(headerString + "\n" + s);
+                        footerString.set(footerString + "\n" + s);
                     }
                 });
                 AdvancedTablist.getInstance().getSettings().sendTab(player, headerString.get(), footerString.get());

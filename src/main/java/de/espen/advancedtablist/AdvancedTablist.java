@@ -23,12 +23,13 @@ public class AdvancedTablist extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        settings = new Settings();
         this.logger = this.getLogger();
         instance = this;
         this.logger.info("[ATL] Enabling AdvanedTablist version " + this.getDescription().getVersion());
 
         //UPDATE CHECKER
-        new UpdateChecker(this, 82456).getVersion(version -> {
+        new UpdateChecker(this, 85136).getVersion(version -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 this.logger.info("[ATL] You run the latest build of AdvancedTablist.");
             } else {
@@ -40,26 +41,32 @@ public class AdvancedTablist extends JavaPlugin {
         registerListener();
 
         //CONFIGURATION
-        this.getConfig().options().copyDefaults(true);
-        this.getConfig().options().copyHeader(true);
-        this.saveConfig();
+        getConfig().options().copyDefaults(true);
+        getConfig().options().copyHeader(true);
+        saveConfig();
         this.logger.info("[ATL] Loaded configuration.");
 
         //SETTINGS
-        this.settings.PREFIX = this.getConfig().getString("Settings.Prefix");
-        this.settings.VERSION = Integer.parseInt(this.getDescription().getVersion());
-        this.settings.PERMISSION = this.getConfig().getString("Settings.Permission");
+        try {
+            settings.PREFIX = getConfig().getString("Settings.Prefix").replaceAll("&", "§");
+            settings.VERSION = this.getDescription().getVersion();
+            settings.PERMISSION = getConfig().getString("Settings.Permission");
 
-        this.settings.HEADER = (ArrayList<String>) this.getConfig().getStringList("TabList.Header");
-        this.settings.FOOTER = (ArrayList<String>) this.getConfig().getStringList("TabList.Footer");
+            settings.HEADER = (ArrayList<String>) getConfig().getStringList("TabList.Header");
+            settings.FOOTER = (ArrayList<String>) getConfig().getStringList("TabList.Footer");
 
-        this.settings.UPDATE_FREQUENTLY = this.getConfig().getBoolean("Settings.UpdateFrequently");
-        this.settings.FIRE_EVENTS = this.getConfig().getBoolean("Settings.FireUpdateEvents");
-        this.settings.DISABLE_B_STATS = this.getConfig().getBoolean("Settings.DisableBStats");
+            settings.UPDATE_FREQUENTLY = getConfig().getBoolean("Settings.UpdateFrequently");
+            settings.FIRE_EVENTS = getConfig().getBoolean("Settings.FireUpdateEvents");
+            settings.DISABLE_B_STATS = getConfig().getBoolean("Settings.DisableBStats");
+        } catch (NullPointerException exc) {
+            this.logger.warning("[ATL] Catched exception while settings configuration variables -> "
+                    + exc.getMessage() + " \n \n");
+            exc.printStackTrace();
+        }
         this.logger.info("[ATL] Inserted configuration values.");
 
         //UPDATE FREQUENTLY TASK
-        if (this.settings.UPDATE_FREQUENTLY) {
+        if (settings.UPDATE_FREQUENTLY) {
             this.tabListUpdater = new TabListUpdater(3);
             tabListUpdater.startUpdater();
             this.logger.info("[ATL] Enabled frequent updating.");

@@ -9,7 +9,7 @@
 #
 Settings:
   #Set the prefix for commands
-  Prefix: '§6§lATL §8× '
+  Prefix: '&6&lATL &8> '
   #Disable frequent updates (every 3 seconds, if turned off, every 15)
   UpdateFrequently: true
   #Disable events called by ATL
