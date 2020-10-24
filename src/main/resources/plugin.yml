@@ -1,0 +1,8 @@
+name: AdvancedTablist
+version: 1.0
+author: Espen
+main: de.espen.advancedtablist.AdvancedTablist
+
+commands:
+  atl:
+    description: General help command

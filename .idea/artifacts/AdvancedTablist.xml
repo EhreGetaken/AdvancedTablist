@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="AdvancedTablist">
+    <output-path>$PROJECT_DIR$/../../../TestServer2/plugins</output-path>
+    <root id="archive" name="AdvancedTablist.jar">
+      <element id="module-output" name="AdvancedTablist" />
+    </root>
+  </artifact>
+</component>
